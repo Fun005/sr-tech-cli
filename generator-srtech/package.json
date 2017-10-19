@@ -1,0 +1,29 @@
+{
+  "name": "generator-srtech",
+  "version": "1.0.3",
+  "description": "sunrize tech web cli",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://git.sunrizetech.cn/tangc1/sr-tech-cli.git"
+  },
+  "keywords": [
+    "sunrizetech",
+    "cli",
+    "srtech",
+    "yeoman-generator"
+  ],
+  "author": "tangc1",
+  "license": "MIT",
+  "dependencies": {
+    "chai": "^3.3.0",
+    "chalk": "^2.2.0",
+    "fs-extra": "^0.24.0",
+    "mocha": "^2.3.3",
+    "yeoman-generator": "^0.24.1",
+    "yosay": "^1.0.5"
+  }
+}
