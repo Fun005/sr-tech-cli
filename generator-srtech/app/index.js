@@ -13,11 +13,9 @@ var srtech = yeoman.Base.extend({
 
     generateBasic: function() {  //按照自己的templates目录自定义
         this.directory('src', 'src');    //拷贝目录
-        this.directory('static', 'static');
         this.copy('package.json', 'package.json');   //拷贝文件
         this.copy('index.html', 'index.html');
         this.copy('README.md', 'README.md');
-        this.copy('webpack.config.js', 'webpack.config.js');
     },
     generateClient: function() {
         this.sourceRoot(path.join(__dirname, 'templates'));

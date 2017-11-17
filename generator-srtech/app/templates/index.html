@@ -1,10 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <meta charset="utf-8">
+    <title>会员中心</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
 
+    <link rel="stylesheet" href="src/libs/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="src/assets/css/global.css" media="all">
+    <link rel="stylesheet" href="src/libs/font-awesome/css/font-awesome.min.css">
+</head>
+
+<body>
+<div class="layui-layout layui-layout-admin" style="border-bottom: solid 5px #1aa094;">
+    <div class="layui-header header header-demo">
+        <div class="layui-main">
+            <div class="admin-login-box">
+                <a class="logo" style="left: 0;" href="#">
+                    <span style="font-size: 22px;">会员中心管理</span>
+                </a>
+                <div class="admin-side-toggle">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+                <div class="admin-side-full">
+                    <i class="fa fa-life-bouy" aria-hidden="true"></i>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- 侧边栏菜单start -->
+    <div class="layui-side layui-bg-black" id="admin-side" ><!--style="background-color:#ddd!important;"-->
+        <div class="layui-side-scroll" id="admin-navbar-side" lay-filter="side"></div>
+        <!--<ul id="sideTree_id" style="margin-top: 10px;padding-left: 10px;"></ul>-->
+    </div>
+
+    <!-- 侧边栏菜单end-->
+
+    <div class="layui-body" style="bottom: 0;border-left: solid 2px #1AA094;" id="admin-body">
+        <div class="layui-tab admin-nav-card layui-tab-brief" lay-filter="admin-tab">
+            <ul id="demo" class="layui-tab-title">
+                <li class="layui-this">
+                    <i class="fa fa-dashboard" aria-hidden="true"></i>
+                    <cite>主页</cite>
+                </li>
+            </ul>
+            <div class="layui-tab-content" style="min-height: 150px; padding: 5px 0 0 0;">
+                <div class="layui-tab-item layui-show">
+                    <iframe src="src/components/memberCenter/pages/deptManage.html"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-footer footer footer-demo" id="admin-footer">
+        <div class="layui-main">
+            <p>2017 &copy;
+                <a href="http://v3.esaleb.com/!ESale/Mall/UI/~view/login">会员管理系统</a>
+            </p>
+        </div>
+    </div>
+    <div class="site-tree-mobile layui-hide">
+        <i class="layui-icon">&#xe602;</i>
+    </div>
+    <div class="site-mobile-shade"></div>
+
+    <script type="text/javascript" src="src/libs/Jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="src/libs/Jquery/jquery.base64.js"></script>
+    <script src="src/components/sunrise-app/sunrise-app-config.js"></script>
+    <script src="src/components/sunrise-app/sunrise-app.js"></script>
+    <script type="text/javascript" src="src/libs/layui/layui.js"></script>
+    <script type="text/javascript" src="src/assets/data/nav.js"></script>
+    <script src="src/assets/js/index.js"></script>
+
+</div>
 </body>
+
 </html>
