@@ -27,11 +27,11 @@ var srtech = yeoman.Base.extend({
         this.sourceRoot(path.join(__dirname, 'templates'));
         this.destinationPath('./');
     },
-    install: function() {      //安装依赖
+    /*install: function() {      //安装依赖
         this.installDependencies({
             skipInstall: this.options['skip-install']
         });
-    },
+    },*/
     end: function() {
         this.log(yosay(
             '构建成功!'
