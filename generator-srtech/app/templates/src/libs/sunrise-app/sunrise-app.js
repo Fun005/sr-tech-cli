@@ -3,7 +3,7 @@
  */
 
 (function ($) {
-    if (SunriseApp == undefined) {
+    if (SunriseAppConfig == undefined) {
         console.warn("未设置 SunriseApp 配置，将运行不正常");
         return;
     }
@@ -15,11 +15,11 @@
 
     var $ajax_orignal = $.ajax;
 
-    var systemConfig = SunriseApp.systems;
+    var systemConfig = SunriseAppConfig.systems;
 
 
     var getSysHost = function (sys) {
-        return systemConfig[sys]["server_base"];
+        return systemConfig[sys] == undefined ? "" : systemConfig[sys]["server_base"];
     };
 
     $.ajax = function (settings) {
@@ -49,12 +49,21 @@
                 settings["url"] = url;
             } else if (settings["sys"] != undefined) {
                 console.warn("没有在主机定义文件找到主机 " + settings["sys"] + " 的定义");
-                settings["url"] = SunriseApp.app_base + url;
+                settings["url"] = SunriseAppConfig.app_base + url;
             }
         }
 
         settings["type"] = settings["type"] || "GET";
+        settings["crossDomain"] = true;
+        settings["xhrFields"] = {
+            withCredentials: true
+        };
         return $ajax_orignal.apply($, [settings]);
+    };
+
+    $.urlParam = function (name) {
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        return results == null ? "" : (results[1] || '');
     };
 })(jQuery);
 
@@ -92,7 +101,7 @@
  * 302  系统正在重定向
  */
 
-var Security = (function () {
+var SunriseApp = (function () {
     console.log("init security.");
     var LOGIN_DATA_KEY = "login_info";
     var FUNC_DATA_KEY = "func_def";
@@ -104,7 +113,7 @@ var Security = (function () {
     var STATUS_ERROR = 500;
     var STATUS_REDIRECT = 302;
 
-    var config = SunriseApp.security_params;
+    var config = SunriseAppConfig.security_params;
 
     /**
      * 数据保存接口
@@ -131,20 +140,20 @@ var Security = (function () {
      * 显式指定状态的界面信息
      * @param status
      */
-    var showStatusPage = function (status, message, success) {
+    var showStatusPage = function (status, params, success) {
         console.log("display status page: ", status);
 
         var $div = $(".security_div");
         if ($div.length == 0) {
 
             $div = $("<div></div>").addClass("security_div").hide().css("height", document.body.scrollHeight +
-                    "px").css("width", document.body.scrollWidth + "px").css("z-index", "999").css("position",
-                    "absolute").css("top", 0).css("left", 0);
+                "px").css("width", document.body.scrollWidth + "px").css("z-index", "2000").css("position",
+                "absolute").css("top", 0).css("left", 0);
             $(document.body).append($div);
         }
 
         $div.show();
-        $div.load(config.status_pages[status], "", success);
+        $div.load(config.status_pages[status], params, success);
     };
 
     /**
@@ -204,9 +213,9 @@ var Security = (function () {
      */
     var checkPermission = function (funcs, allow, deny) {
         //先找到当前的 URL
-        var url = "";//todo: 获取当前的页面路径
+        // var url = "";//todo: 获取当前的页面路径
 
-        var func = funcs[url];
+        // var func = funcs[url];
         //功能不存在或者模式是不控制权限
         /*
         if (func == undefined || func["mode"] < 0) {
@@ -248,51 +257,36 @@ var Security = (function () {
 
     };
 
-    /**
-     * 检查是否已经登录，如果没有登录，则跳转到登录
-     * @param {*} success
-     * @param {*} fail
-     */
-    var checkLogin = function (success, fail) {
-        console.log("checking login…");
-        ajax(config.urls.login_check, {}, function (data) {
-            //console.log(data);
-            if ("yes" == data) {
-                //表示已经登录，向会员中心发送登录请求
-                console.log("已经登录");
-            } else {
-                console.log("还没有登录，跳转到登录页面");
-                //没有登录，跳转到登录页面进行跳转
-                showStatusPage(STATUS_REDIRECT, "系统正在跳转到登录页面，请稍候…");
+    //获取功能定义和授权信息
+    var getFuncAndPermDatas = function (done) {
+        $.ajax({
+            url: config.urls.functions,
+            method: "GET",
+            dataType: "json",
+            success: function (data) {
+                //保存
+                saveData(FUNC_DATA_KEY, processFuncs(data.body));
+
+                //在这里继续往下走
+                // checkPermission(funcs, function () {
+                //     hideStatusPage();
+                // }, function () {
+                //     showStatusPage(STATUS_DENY);
+                // });
+
+                $.ajax({
+                    url: config.urls.permissions,
+                    method: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        saveData(PERMINSION_DATA_KEY, data.body);
+                        if (done)
+                            done();
+                    }
+                });
             }
         });
-        /*
-        var user = null;//getData(LOGIN_DATA_KEY);
-        console.log(JSON.stringify(user));
-        if (user == undefined) {
-            showStatusPage(STATUS_WAITTING, "准备进入，请稍候…", function () {
-                //TODO：这里还要检查是否超时
-                //去后台请求获取登录信息
-                ajax(config.urls.login_info, {}, function (data) {
-                    //如果已经登录，保存登录信息，并继续校验操作
-                    if (data.header.code == 0) {
-                        console.log("用户已经登录了，设置用户信息");
-                        saveData(LOGIN_DATA_KEY, data.body);
-                        success();
-                    } else {
-                        //跳转到登录页面
-                        showStatusPage(STATUS_REDIRECT, "系统正在跳转到登录页面，请稍候…");
-                        return;
-                    }
-                }, function () {
-                });
-            });
-        } else {
-            success();
-        }
-        */
     };
-
 
     //定义要返回的结果
     var result = {
@@ -301,7 +295,6 @@ var Security = (function () {
          */
         getLoginInfo: function () {
             var info = getData(LOGIN_DATA_KEY);
-
         },
 
         /**
@@ -325,40 +318,104 @@ var Security = (function () {
         getPermissions: function () {
             var perm = getData(PERMINSION_DATA_KEY);
             return perm == undefined ? [] : perm;
+        },
+
+        /**
+         * 执行注销操作，删除所有的本地缓存
+         */
+        logout: function () {
+            localStorage.clear();
+        },
+
+        /**
+         * 执行登录操作
+         */
+        checkLogin: function (success, fail) {
+            var login_info = getData(LOGIN_DATA_KEY);
+            if (login_info != undefined) {
+                var lastCheckTime = login_info["check_time"];
+
+                //如果是5分钟前进行过检查，并且登录信息还存在，先不用检查
+                if (new Date().getTime() - lastCheckTime < 5 * 60 * 1000) {
+                    if (success)
+                        success();
+                    return;
+                }
+            }
+
+            if (fail)
+                fail();
+        },
+
+        /**
+         * 校验 ticket 是否合法
+         */
+        validateTicket: function (success, fail) {
+            console.log("进行登录校验");
+
+            var login_info = getData(LOGIN_DATA_KEY);
+
+            var ticket = $.urlParam("ticket");
+            var ticketService = location.href;
+            var idx = ticketService.indexOf('?');
+            if (idx != -1)
+                ticketService = ticketService.substring(0, idx);
+
+            if (ticket == "") {
+                //没有 ticket，需要跳转到 cas 检查是否已经登录
+                location.href = config.urls.login_page + "?service=" + ticketService;
+            } else {
+                //有 ticket，向 cas 请求校验 ticket 是否有效
+                $.ajax({
+                    url: config.urls.login_check,
+                    dataType: "text",
+                    data: {
+                        service: ticketService,
+                        ticket: ticket
+                    },
+                    success: function (xml, textStatus, jqXHR) {
+                        //todo: 这里需要对 status 进行判断处理
+                        var account = $(xml).find("cas\\:user").text();
+                        if (account == "") {
+                            //没有账号信息，表示没有登录，跳转到登录页面
+                            location.href = config.urls.login_page + "?service=" + ticketService;
+                        } else {
+                            //已经登录了
+                            console.log(account + " 已经登录系统");
+
+                            if (login_info == undefined || login_info.account != account) {
+                                //两次登录的账号不相同，需要清空权限数据，并重新加载
+                            }
+
+                            //保存登录信息
+                            if (login_info == undefined) {
+                                login_info = {account: account};
+                            }
+                            login_info["check_time"] = new Date().getTime();
+
+                            saveData(LOGIN_DATA_KEY, login_info);
+
+                            //success();
+                            //登录完成后，获取功能定义、授权数据、用户的信息
+                            getFuncAndPermDatas(function () {
+                                $.ajax({
+                                    url: config.urls.login_info,
+                                    dataType: "json",
+                                    method: "GET",
+                                    success: function (data) {
+                                        console.log(JSON.stringify(data));
+                                        //获取功能定义和权限数据
+                                        if (success)
+                                            success();
+                                    }
+                                });
+                            });
+                        }
+                    }
+                });
+            }
         }
     };
-
-    //获取功能定义数据
-    var funcs = result.getFuncs();
-    if (funcs == undefined) {
-        //还没有权限数据，提示等待界面，并进行请求
-        showStatusPage(STATUS_WAITTING, "", function () {
-            ajax(config.urls.functions, {}, function (data) {
-                //先做保存
-                saveData(FUNC_DATA_KEY, processFuncs(data.body));
-
-                //在这里继续往下走
-                checkPermission(funcs, function () {
-                    hideStatusPage();
-                }, function () {
-                    showStatusPage(STATUS_DENY);
-                });
-            }, function () {
-                //这里失败了，显式系统错误界面
-                showStatusPage(STATUS_ERROR, "");
-            });
-        });
-    } else {
-        //继续往下走
-        checkPermission(funcs, function () {
-            hideStatusPage();
-        }, function () {
-            showStatusPage(STATUS_DENY);
-        });
-    }
-
-    //获取权限数据
-
 
     return result;
 }(jQuery));
