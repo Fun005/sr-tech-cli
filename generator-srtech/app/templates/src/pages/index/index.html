@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+    content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>vue_base_template</title>
+  <script>window.fsmonitor = { pageStartTime: +new Date };</script>
+  <script src="https://www.mgtv.com/act/2018/mplayer-v2/ZTMobilePlayer.js"></script>
+</head>
+
+<body style="font-size: 14px;" mg-stat-page="vue_base_template_index" mg-stat-lob="from=jmcp" mg-stat-terminal="h5">
+  <noscript>
+    <strong>We're sorry but doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+  </noscript>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+  <!-- <script src="//res.wx.qq.com/open/js/jweixin-1.3.2.js"></script> -->
+  <script src="//app.hitv.com/js/mgtv-js-sdk.js"></script>
+  <script src="//act.mgtv.com/act/app/lib/bulma.js"></script>
+  <script src="//js.mgtv.com/lois/lois.min.js"></script>
+
+  <script>
+    (function (G, D, s, c, p) {
+      c = {
+        site_version: "jmcp-1.0.0",  //【必填】 业务方版本号
+        sdk: '//honey.mgtv.com/honey-2.0/lib/mba.min.js'   //【必填】SDK文件托管地址
+      };
+      G.MgStat ? G.MgStat.config(c, p) : (G.MgStatTQ = G.MgStatTQ || []).push([c, p]), !G._mbaLoading && load();
+      function load(t) {
+        G._mbaLoading = 1; s = D.createElement("script"); s.src = c.sdk;
+        t = D.getElementsByTagName("script"); t = t[t.length - 1];
+        t.parentNode.insertBefore(s, t);
+      }
+    })(this, document);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,337 @@
+@import './base.less';
+@primary: #1baeae; // 主题色
+@orange: #FF6B01;
+@bc: #F7F7F7;
+@fc: #fff;
+
+// 背景图片地址和大小
+.bis(@url) {
+  background-image: url(@url);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+//圆角
+.borderRadius(@radius) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  -ms-border-radius: @radius;
+  -o-border-radius: @radius;
+  border-radius: @radius;
+}
+
+//1px底部边框
+.border-1px(@color) {
+  position: relative;
+
+  &:after {
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid @color;
+    content: '';
+  }
+}
+
+//定位全屏
+.allcover {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+//定位上下左右居中
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+//定位上下居中
+.ct {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+//定位左右居中
+.cl {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+//宽高
+.wh(@width, @height) {
+  width: @width;
+  height: @height;
+}
+
+//字体大小，颜色
+.sc(@size, @color) {
+  font-size: @size;
+  color: @color;
+}
+
+.boxSizing {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+//flex 布局和 子元素 对其方式
+.fj(@type: space-between) {
+  display: flex;
+  justify-content: @type;
+}
+
+// 文字省略
+.ellipsis {
+  overflow: hidden;
+  word-wrap: normal;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// 多行文字省略
+.ellipsisLn(@line) {
+  overflow: hidden;
+  white-space: normal;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: @line;
+}
+
+.top-1px(color) {
+  position: relative;
+
+  &:before {
+    content: ' ';
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid @color;
+    color: @color;
+    transform-origin: 0 0;
+
+    // transform: scaleY(0.5);
+    /* 1.5倍屏 */
+    @media (-webkit-min-device-pixel-ratio:1.5) {
+      transform: scaleY(0.6666);
+    }
+
+    /* 2倍屏 */
+    @media (-webkit-min-device-pixel-ratio:2) {
+      transform: scaleY(0.5);
+    }
+
+    /* 3倍屏 */
+    @media (-webkit-min-device-pixel-ratio:3) {
+      transform: scaleY(0.3333);
+    }
+  }
+}
+
+.bottom-1px(@color) {
+  position: relative;
+
+  &:after {
+    content: ' ';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 1px;
+    border-bottom: 1px solid @color;
+    color: @color;
+    transform-origin: 0 100%;
+
+    // transform: scaleY(0.5);
+    /* 1.5倍屏 */
+    @media (-webkit-min-device-pixel-ratio:1.5) {
+      transform: scaleY(0.6666);
+    }
+
+    /* 2倍屏 */
+    @media (-webkit-min-device-pixel-ratio:2) {
+      transform: scaleY(0.5);
+    }
+
+    /* 3倍屏 */
+    @media (-webkit-min-device-pixel-ratio:3) {
+      transform: scaleY(0.3333);
+    }
+  }
+}
+
+.left-1px(@color) {
+  position: relative;
+
+  &:before {
+    content: ' ';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    width: 1px;
+    border-left: 1px solid @color;
+    color: @color;
+    transform-origin: 0 0;
+
+    // transform: scaleY(0.5);
+    /* 1.5倍屏 */
+    @media (-webkit-min-device-pixel-ratio:1.5) {
+      transform: scaleY(0.6666);
+    }
+
+    /* 2倍屏 */
+    @media (-webkit-min-device-pixel-ratio:2) {
+      transform: scaleY(0.5);
+    }
+
+    /* 3倍屏 */
+    @media (-webkit-min-device-pixel-ratio:3) {
+      transform: scaleY(0.3333);
+    }
+  }
+}
+
+.right-1px(@color) {
+  position: relative;
+
+  &:after {
+    content: ' ';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    width: 1px;
+    border-right: 1px solid @color;
+    color: @color;
+    transform-origin: 100% 100%;
+
+    // transform: scaleY(0.5);
+    /* 1.5倍屏 */
+    @media (-webkit-min-device-pixel-ratio:1.5) {
+      transform: scaleY(0.6666);
+    }
+
+    /* 2倍屏 */
+    @media (-webkit-min-device-pixel-ratio:2) {
+      transform: scaleY(0.5);
+    }
+
+    /* 3倍屏 */
+    @media (-webkit-min-device-pixel-ratio:3) {
+      transform: scaleY(0.3333);
+    }
+  }
+}
+
+.page {
+  padding: 0 50px;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+page::-webkit-scrollbar {
+  display: none;
+}
+
+.hide {
+  display: none;
+}
+
+.clear {
+  clear: both;
+}
+
+.background-contain(@url) {
+  background: url(@url) center no-repeat;
+  background-size: 100% 100%;
+}
+
+.background-cover(@url) {
+  background: url(@url) center no-repeat;
+  background-size: cover;
+}
+
+.placeholder-color(@color) {
+  &::-webkit-input-placeholder {
+    color: @color;
+  }
+
+  &:-moz-placeholder {
+    color: @color;
+    opacity: 1;
+  }
+
+  &::-moz-placeholder {
+    color: @color;
+    opacity: 1;
+  }
+
+  &:-ms-input-placeholder {
+    color: @color;
+  }
+}
+
+.font-oblique(@ff, @fs) {
+  font-display: swap;
+  font-family: @ff, "PingFang SC";
+  font-size: @fs;
+  font-style: oblique;
+}
+
+@defaultAvatar: 'https://img.mgtv.com/imgotv-member/user/avt.jpg';
+
+@font-face {
+  font-family: hanyiyahei55W;
+  src: url(~resource/fonts/hanyiyahei55W.ttf);
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: hanyiyahei85W;
+  src: url(~resource/fonts/hanyiyahei85W.ttf);
+  font-weight: normal;
+}
+
+//四条边框
+.setAllLine(@clolor, @radius: 0) {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  border: 1px solid @clolor;
+
+  @media (-webkit-min-device-pixel-ratio: 1.5) {
+    width: 150%;
+    height: 150%;
+    transform: scale(0.66666);
+    border-radius: @radius * 1.5;
+  }
+
+  @media (-webkit-min-device-pixel-ratio: 2) {
+    width: 200%;
+    height: 200%;
+    transform: scale(0.5);
+    border-radius: @radius * 2;
+  }
+
+  @media (-webkit-min-device-pixel-ratio: 3) {
+    width: 300%;
+    height: 300%;
+    transform: scale(0.33333);
+    border-radius: @radius * 3;
+  }
+}

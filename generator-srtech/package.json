@@ -1,7 +1,7 @@
 {
   "name": "generator-srtech",
-  "version": "1.1.4",
-  "description": "sunrize tech web cli",
+  "version": "1.1.5",
+  "description": "tc dev cli",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,7 +11,7 @@
     "url": "https://github.com/Fun005/sr-tech-cli.git"
   },
   "keywords": [
-    "sunrizetech",
+    "tangc1",
     "cli",
     "srtech",
     "yeoman-generator"

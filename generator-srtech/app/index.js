@@ -5,19 +5,20 @@ var yeoman = require('yeoman-generator');
 var yosay = require('yosay');    //yeoman弹出框
 var path = require('path');
 var srtech = yeoman.Base.extend({
-    info: function() {
+    info: function () {
         this.log(chalk.green(
             '开始构建项目!'
         ));
     },
 
-    generateBasic: function() {  //按照自己的templates目录自定义
+    generateBasic: function () {  //按照自己的templates目录自定义
         this.directory('src', 'src');    //拷贝目录
         this.copy('package.json', 'package.json');   //拷贝文件
-        this.copy('index.html', 'index.html');
         this.copy('README.md', 'README.md');
+        this.copy('babel.config.js', 'babel.config.js');
+        this.copy('vue.config.js', 'vue.config.js');
     },
-    generateClient: function() {
+    generateClient: function () {
         this.sourceRoot(path.join(__dirname, 'templates'));
         this.destinationPath('./');
     },
@@ -26,7 +27,7 @@ var srtech = yeoman.Base.extend({
             skipInstall: this.options['skip-install']
         });
     },*/
-    end: function() {
+    end: function () {
         this.log(yosay(
             '构建成功!'
         ));

@@ -1,16 +1,29 @@
-第一次使用：
-npm install -g yo
+# vue-base
 
-然后直接安装脚手架
+## Project setup
+```
+npm install
+```
 
-npm install -g generator-srtech
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
-以后就可以在合适的地方新建一个文件夹，直接在文件夹下运行：
+### Compiles and minifies for production
+```
+npm run build
+```
 
-yo srtech
+### Run your tests
+```
+npm run test
+```
 
+### Lints and fixes files
+```
+npm run lint
+```
 
-libs存放第三方依赖
-assets存放公告css等静态资源
-common存放公共组件
-components存放具体的业务和功能模块
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
