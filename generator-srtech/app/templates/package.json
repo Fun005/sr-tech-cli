@@ -1,6 +1,6 @@
 {
   "name": "vue-base-template",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -23,7 +23,7 @@
     ]
   },
   "dependencies": {
-    "@tp/h5utils": "^3.2.14",
+    "@tp/h5utils": "^3.3.7",
     "axios-jsonp": "^1.0.4",
     "captcha-sdk": "^0.6.0",
     "core-js": "^3.6.4",
